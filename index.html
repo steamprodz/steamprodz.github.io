@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Andrii Diachenko — Senior .NET / Full-Stack Developer">
+<title>Andrii Diachenko — Senior .NET / Full-Stack Developer</title>
+<style>
+:root{--bg:#101814;--panel:#18231e;--line:#304238;--text:#f5f1e8;--muted:#b8c2b6;--accent:#8fb8d8;--accent2:#a9b77c;--warm:#d9b18c;--stone:#d7d0c2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 14% 4%,rgba(143,184,216,.13),transparent 29%),radial-gradient(circle at 92% 10%,rgba(169,183,124,.10),transparent 24%),linear-gradient(180deg,#101814,#0d1512 68%,#101814);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}.container{width:min(1180px,calc(100% - 40px));margin:auto}
+nav{position:sticky;top:0;z-index:30;background:rgba(16,24,20,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(215,208,194,.10)}
+.nav{min-height:70px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800;display:flex;align-items:center;font-size:17px;letter-spacing:.15px}
+.links{display:flex;gap:18px;color:var(--muted);font-size:14px}.links a:hover{color:var(--text)}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:46px;align-items:center;padding:92px 0 70px}.eyebrow{font-size:12px;letter-spacing:1.7px;text-transform:uppercase;color:#bcca8e;font-weight:800}
+h1{font-size:clamp(46px,7vw,80px);line-height:.98;letter-spacing:-3px;margin:14px 0 22px}.gradient{background:linear-gradient(90deg,#f5f1e8 0%,#a9b77c 48%,#8fb8d8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p,.muted{color:var(--muted)}.hero p{font-size:18px;max-width:760px}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn{padding:11px 15px;border-radius:11px;border:1px solid var(--line);background:#18231e;font-weight:700;font-size:14px;transition:.2s ease}.btn:hover{transform:translateY(-2px);border-color:#587262;background:#1d2b24}.btn.primary{background:linear-gradient(135deg,var(--accent2),#c5c997);color:#132019;border-color:transparent}
+.hero-card,.card,.stack,.about-card{background:linear-gradient(180deg,#1a2721,#141f1a);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 38px rgba(0,0,0,.12)}
+.hero-card{padding:24px}
+.hero-visual{
+  position:relative;
+  min-height:560px;
+  border-radius:30px;
+  overflow:hidden;
+  border:1px solid rgba(215,208,194,.20);
+  box-shadow:0 28px 80px rgba(0,0,0,.28);
+  background:#18231e;
+}
+.hero-visual img{
+  width:100%;
+  height:100%;
+  min-height:560px;
+  object-fit:cover;
+  object-position:center 43%;
+  display:block;
+  filter:saturate(.94) contrast(1.02);
+}
+.hero-visual:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 54%,rgba(12,19,16,.72) 100%);
+  pointer-events:none;
+}
+.photo-note{
+  position:absolute;
+  left:22px;
+  right:22px;
+  bottom:20px;
+  z-index:2;
+  padding:14px 16px;
+  border:1px solid rgba(245,241,232,.18);
+  border-radius:14px;
+  background:rgba(16,24,20,.64);
+  backdrop-filter:blur(10px);
+}
+.photo-note b{display:block;font-size:15px}
+.photo-note span{font-size:12px;color:#d9dfd6}
+.stat{display:flex;justify-content:space-between;gap:15px;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.07)}.stat:last-child{border-bottom:0}.stat strong{font-size:25px}.stat span{font-size:12px;color:var(--muted);text-align:right}
+section{padding:54px 0}.section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:24px}.section-head h2{font-size:36px;letter-spacing:-1px;margin:5px 0 0}.section-head p{max-width:600px;color:var(--muted);margin:0}
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{padding:24px;min-height:290px;display:flex;flex-direction:column}.card.featured{grid-column:span 2}.num{font-size:11px;color:#8fb8d8;font-weight:800;letter-spacing:1.2px}.card h3{font-size:25px;margin:10px 0}.card p{color:var(--muted);margin:0 0 16px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 20px}.chip{font-size:12px;padding:5px 8px;border-radius:999px;border:1px solid #476052;background:#132019;color:#d7e1d4}.card .buttons{margin-top:auto}
+.stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stack{padding:18px}.stack b{display:block;margin-bottom:5px}.stack span{font-size:13px;color:var(--muted)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:18px}.about-card{padding:22px}.about-card li,.about-card p{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:30px 0 45px;color:var(--muted);font-size:14px}.footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-visual,.hero-visual img{min-height:460px}.projects{grid-template-columns:1fr}.card.featured{grid-column:auto}.stack-grid{grid-template-columns:1fr 1fr}.about{grid-template-columns:1fr}.links{display:none}}
+@media(max-width:560px){.container{width:min(100% - 26px,1180px)}.stack-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="container nav"><a class="brand" href="#top">Andrii Diachenko</a><div class="links"><a href="#projects">Projects</a><a href="#stack">Stack</a><a href="#about">About</a></div></div></nav>
+
+<main id="top" class="container">
+<section class="hero">
+<div>
+<div class="eyebrow">Senior .NET / Full-Stack Developer</div>
+<h1>Building reliable <span class="gradient">business software</span> with .NET.</h1>
+<p>Senior software engineer with 11+ years of professional .NET experience, focused on ASP.NET Core, Angular, SQL Server, Azure, REST APIs, integrations, enterprise applications, and modernization of existing systems.</p>
+<div class="buttons"><a class="btn primary" href="#projects">View projects</a><a class="btn" href="https://www.linkedin.com/in/andrii-diachenko-6103a7b3/" target="_blank">LinkedIn</a></div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid rgba(215,208,194,.12)">
+  <div><b style="font-size:20px">11+ years</b><div class="muted" style="font-size:12px">.NET experience</div></div>
+  <div><b style="font-size:20px">.NET 6–10</b><div class="muted" style="font-size:12px">Backend development</div></div>
+  <div><b style="font-size:20px">Angular</b><div class="muted" style="font-size:12px">Full-stack applications</div></div>
+  <div><b style="font-size:20px">Azure + SQL</b><div class="muted" style="font-size:12px">Cloud & data</div></div>
+</div>
+</div>
+<aside class="hero-visual">
+  <img src="assets/portrait.jpg" alt="Andrii Diachenko">
+  <div class="photo-note">
+    <b>Andrii Diachenko</b>
+    <span>Senior .NET / Full-Stack Developer</span>
+  </div>
+</aside>
+</section>
+
+<section id="projects">
+<div class="section-head"><div><div class="eyebrow">Selected work</div><h2>Portfolio projects</h2></div><p>Interactive portfolio concepts demonstrating different application workflows and UI patterns for modern .NET full-stack development.</p></div>
+<div class="projects">
+
+<article class="card featured">
+<div class="num">PROJECT 01</div><h3>Modern E-commerce Platform</h3>
+<p>Product discovery, filtering, quick-view interactions, cart management, checkout flow, and an Azure-ready full-stack architecture.</p>
+<div class="chips"><span class="chip">ASP.NET Core</span><span class="chip">Angular</span><span class="chip">SQL Server</span><span class="chip">Azure</span><span class="chip">REST API</span></div>
+<div class="buttons"><a class="btn primary" href="01-ecommerce.html">Open live demo</a></div>
+</article>
+
+<article class="card">
+<div class="num">PROJECT 02</div><h3>CRM & Sales Pipeline</h3>
+<p>Split-pane sales workspace with searchable opportunities, pipeline stages, editable deal data, account details, and activity tracking.</p>
+<div class="chips"><span class="chip">ASP.NET Core</span><span class="chip">Angular</span><span class="chip">SQL Server</span><span class="chip">Entra ID</span></div>
+<div class="buttons"><a class="btn primary" href="02-crm.html">Open live demo</a></div>
+</article>
+
+<article class="card">
+<div class="num">PROJECT 03</div><h3>Task & Project Management</h3>
+<p>Interactive Kanban workflow with drag-and-drop task movement, assignments, priorities, progress tracking, search, filters, and editing.</p>
+<div class="chips"><span class="chip">.NET 8</span><span class="chip">Angular 17</span><span class="chip">SQL Server</span><span class="chip">SignalR</span></div>
+<div class="buttons"><a class="btn primary" href="03-taskboard.html">Open live demo</a></div>
+</article>
+
+<article class="card">
+<div class="num">PROJECT 04</div><h3>Business Analytics & Reporting</h3>
+<p>Data-heavy reporting workspace with KPIs, charts, filtering, sortable tables, anomaly monitoring, segmentation, and CSV export.</p>
+<div class="chips"><span class="chip">ASP.NET Core</span><span class="chip">Angular</span><span class="chip">SQL Server</span><span class="chip">Chart.js</span></div>
+<div class="buttons"><a class="btn primary" href="04-analytics.html">Open live demo</a></div>
+</article>
+
+<article class="card">
+<div class="num">PROJECT 05</div><h3>Contract Automation Platform</h3>
+<p>Contract review workspace with comments, approval workflows, checklists, participants, templates, version state, and document lifecycle management.</p>
+<div class="chips"><span class="chip">ASP.NET Core</span><span class="chip">Angular</span><span class="chip">SQL Server</span><span class="chip">Azure Blob Storage</span><span class="chip">REST API</span></div>
+<div class="buttons"><a class="btn primary" href="05-contract-automation.html">Open live demo</a></div>
+</article>
+
+</div>
+</section>
+
+<section id="stack">
+<div class="section-head"><div><div class="eyebrow">Core stack</div><h2>Technologies</h2></div><p>Microsoft-oriented enterprise development with full-stack, integration, legacy-modernization, desktop, and mobile experience.</p></div>
+<div class="stack-grid">
+<div class="stack"><b>.NET / C#</b><span>ASP.NET Core, APIs, backend services, application architecture.</span></div>
+<div class="stack"><b>Angular / TypeScript</b><span>Full-stack web applications, RxJS, component-driven UI.</span></div>
+<div class="stack"><b>SQL Server</b><span>Relational design, business data, reporting and integrations.</span></div>
+<div class="stack"><b>Microsoft Azure</b><span>Cloud-hosted applications, integrations and deployment.</span></div>
+<div class="stack"><b>Legacy modernization</b><span>Extending existing codebases without unnecessary rewrites.</span></div>
+<div class="stack"><b>Integrations</b><span>REST APIs, Salesforce and external business systems.</span></div>
+<div class="stack"><b>Desktop</b><span>WPF and previous C++ / Qt experience.</span></div>
+<div class="stack"><b>Mobile</b><span>Flutter for cross-platform iOS and Android applications.</span></div>
+</div>
+</section>
+
+<section id="about">
+<div class="section-head"><div><div class="eyebrow">About</div><h2>Engineering background</h2></div></div>
+<div class="about">
+<article class="about-card"><h3>What I work on</h3><ul><li>Enterprise .NET applications and backend services</li><li>Angular / .NET full-stack systems</li><li>REST API design and third-party integrations</li><li>SQL Server-backed business applications</li><li>Legacy modernization and production troubleshooting</li><li>Architecture and technical ownership</li></ul></article>
+<article class="about-card"><h3>Working style</h3><p>I’m comfortable joining existing systems, understanding business logic, debugging complex behavior, and delivering controlled changes. I value maintainable code, clear communication, practical architecture, and reliable delivery.</p><div class="buttons"><a class="btn" href="https://www.linkedin.com/in/andrii-diachenko-6103a7b3/" target="_blank">LinkedIn</a></div></article>
+</div>
+</section>
+</main>
+
+<footer><div class="container footer"><div>© <span id="year"></span> Andrii Diachenko</div><div>Senior .NET / Full-Stack Developer</div></div></footer>
+<script>document.getElementById("year").textContent=new Date().getFullYear()</script>
+</body>
+</html>

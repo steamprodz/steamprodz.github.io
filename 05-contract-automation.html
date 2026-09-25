@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DocuFlow — Contract Automation Workspace</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --paper:#fbfaf7; --ink:#202326; --muted:#70757a; --line:#d9d6cf; --accent:#7b4ce0;
+  --accent2:#f0e9ff; --ok:#2d9d68; --warn:#e6a122; --bad:#d85b5b; --nav:#191b21;
+}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#eceff2;color:var(--ink)}
+button,input,select,textarea{font:inherit}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+
+.rail{
+  background:#f6f1ff;
+  color:#302844;
+  padding:20px 14px;
+  display:flex;
+  flex-direction:column;
+  border-right:1px solid #ddd2f5;
+}
+.logo{
+  width:auto;
+  height:auto;
+  border-radius:0;
+  background:none;
+  display:block;
+  color:#5d39b8;
+  font-weight:800;
+  font-size:22px;
+  margin:2px 10px 24px;
+}
+.railBtn{
+  width:100%;
+  height:auto;
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  background:transparent;
+  color:#635a73;
+  border:0;
+  cursor:pointer;
+  padding:11px 12px;
+  margin:3px 0;
+  font-size:14px;
+  text-align:left;
+}
+.railBtn.on,.railBtn:hover{
+  background:#e8ddff;
+  color:#4e2da3;
+}
+.railBtn .ico{
+  width:24px;
+  text-align:center;
+  font-size:16px;
+}
+.spacer{flex:1}
+
+.main{min-width:0}
+.top{height:68px;background:#fff;border-bottom:1px solid #dfe3e6;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.workspaceTitle{font-weight:700}.topActions{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid #cfd4d9;background:#fff;padding:9px 12px;border-radius:8px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white}
+.content{display:grid;grid-template-columns:320px 1fr 340px;gap:16px;padding:16px;height:calc(100vh - 68px)}
+.listPane,.editorPane,.sidePane{background:#fff;border:1px solid #dce1e5;border-radius:12px;overflow:hidden}
+.listHead{padding:16px;border-bottom:1px solid #e2e6e9;background:#fafbfc}
+.search{width:100%;padding:10px 12px;border:1px solid #cfd6dc;border-radius:8px;background:white}
+.tabs{display:flex;gap:6px;margin-top:10px}
+.tab{border:1px solid #d4d9de;background:#fff;padding:7px 10px;border-radius:999px;font-size:12px}
+.tab.on{background:#ece4ff;border-color:#cab8ff;color:#5f35c7}
+.docList{overflow:auto;height:calc(100% - 118px)}
+.docItem{padding:14px 16px;border-bottom:1px solid #eceff1;cursor:pointer}
+.docItem:hover,.docItem.on{background:#faf8ff;border-left:4px solid var(--accent)}
+.docItem b{display:block;margin-bottom:5px}
+.meta{font-size:12px;color:var(--muted)}
+.status{display:inline-block;padding:4px 7px;border-radius:999px;font-size:11px;font-weight:600}
+.status.review{background:#fff2d3;color:#926300}.status.signed{background:#e3f5eb;color:#23734f}.status.draft{background:#edf0f3;color:#5c6770}.status.risk{background:#fde6e6;color:#a13f3f}
+.editorPane{display:grid;grid-template-rows:auto 1fr}
+.editorToolbar{padding:12px 14px;border-bottom:1px solid #e2e6e9;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tools{display:flex;gap:6px;flex-wrap:wrap}.tool{border:1px solid #d4d9de;background:#fff;padding:7px 9px;border-radius:6px}
+.pageWrap{overflow:auto;background:#dfe3e8;padding:26px}
+.paper{width:min(820px,100%);min-height:1100px;background:var(--paper);margin:auto;padding:58px 64px;box-shadow:0 8px 30px #0002;border:1px solid #cbc7bf;position:relative}
+.paper h1{font-family:Georgia,serif;font-weight:500;font-size:34px;margin-top:0}
+.paper h2{font-family:Georgia,serif;font-size:20px;margin-top:30px}
+.paper p{line-height:1.65}
+.clause{position:relative;padding:8px 10px;margin:4px -10px;border-radius:6px}
+.clause.flag{background:#fff0f0;outline:1px solid #f2bbbb}.clause.note{background:#f5f0ff;outline:1px solid #d9c8ff}
+.commentTag{position:absolute;right:-52px;top:4px;width:34px;height:34px;border-radius:50%;background:var(--accent);color:white;display:grid;place-items:center;font-size:12px}
+.sidePane{display:grid;grid-template-rows:auto auto 1fr}
+.sideSection{padding:16px;border-bottom:1px solid #e2e6e9}
+.sideSection h3{margin:0 0 10px;font-size:15px}
+.riskRow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid #edf0f2}
+.score{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700}
+.score.high{background:#fde1e1;color:#a23c3c}.score.med{background:#fff0cf;color:#946400}.score.low{background:#e1f3e9;color:#26764f}
+.timeline{overflow:auto;padding:16px}.event{display:grid;grid-template-columns:12px 1fr;gap:10px;margin-bottom:16px}.dot{width:10px;height:10px;border-radius:50%;background:#9e83ea;margin-top:5px}.event b{display:block}.mini{font-size:12px;color:var(--muted)}
+.tech{position:fixed;right:16px;bottom:14px;background:#191b21;color:#dfe4ea;padding:10px 14px;border-radius:7px;font-size:12px;box-shadow:0 4px 18px #0003}
+.modalWrap{position:fixed;inset:0;background:#0008;display:none;place-items:center;z-index:30}.modalWrap.open{display:grid}
+.modal{width:min(560px,90vw);background:white;border-radius:12px;padding:22px}.field{width:100%;padding:9px 10px;border:1px solid #cfd6dc;border-radius:7px;margin:6px 0 12px}
+@media(max-width:1150px){.content{grid-template-columns:280px 1fr}.sidePane{display:none}}
+@media(max-width:800px){.app{grid-template-columns:1fr}.rail{display:none}.content{grid-template-columns:1fr}.listPane{display:none}.paper{padding:36px 28px}.commentTag{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="logo">DocuFlow</div>
+
+    <button class="railBtn on"><span class="ico">▤</span><span>Contracts</span></button>
+    <button class="railBtn"><span class="ico">◇</span><span>Templates</span></button>
+    <button class="railBtn"><span class="ico">✓</span><span>Approvals</span></button>
+    <button class="railBtn"><span class="ico">▦</span><span>Reports</span></button>
+    <button class="railBtn"><span class="ico">⇄</span><span>Integrations</span></button>
+
+    <div style="margin:18px 10px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#8b819b">
+      Workspace
+    </div>
+    <button class="railBtn"><span class="ico">👥</span><span>Team</span></button>
+    <button class="railBtn"><span class="ico">🏷</span><span>Clause Library</span></button>
+
+    <div class="spacer"></div>
+
+    <div style="padding:12px;background:#fff;border:1px solid #e3daf5;border-radius:10px;margin-bottom:10px">
+      <div style="font-size:12px;color:#847995">Storage</div>
+      <div style="font-weight:700;margin:3px 0">6.8 GB / 20 GB</div>
+      <div style="height:6px;background:#eee7fb;border-radius:999px;overflow:hidden">
+        <div style="width:34%;height:100%;background:#7b4ce0"></div>
+      </div>
+    </div>
+
+    <button class="railBtn"><span class="ico">⚙</span><span>Settings</span></button>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 8px 2px">
+      <div style="width:38px;height:38px;border-radius:50%;background:#7b4ce0;display:grid;place-items:center;color:white">AD</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">Andrii D.</div>
+        <div style="font-size:11px;color:#857c91">Administrator</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div><div class="workspaceTitle">DocuFlow Workspace</div><div class="meta">Legal operations · Contract automation</div></div>
+      <div class="topActions">
+        <button class="btn" onclick="alert('Demo audit log opened')">Audit log</button>
+        <button class="btn" onclick="alert('Demo template gallery opened')">Templates</button>
+        <button class="btn primary" onclick="openModal()">+ New contract</button>
+      </div>
+    </header>
+
+    <section class="content">
+      <aside class="listPane">
+        <div class="listHead">
+          <input class="search" id="q" placeholder="Search contracts...">
+          <div class="tabs"><button class="tab on" data-filter="All">All</button><button class="tab" data-filter="Review">Review</button><button class="tab" data-filter="Signed">Signed</button></div>
+        </div>
+        <div class="docList" id="docList"></div>
+      </aside>
+
+      <section class="editorPane">
+        <div class="editorToolbar">
+          <div class="tools">
+            <button class="tool">B</button><button class="tool"><i>I</i></button><button class="tool">U</button>
+            <button class="tool">Comment</button><button class="tool">Suggest edit</button><button class="tool">Variables</button>
+          </div>
+          <div class="tools"><span class="status review" id="docStatus">In Review</span><button class="btn" onclick="markSigned()">Mark signed</button></div>
+        </div>
+        <div class="pageWrap">
+          <article class="paper" id="paper"></article>
+        </div>
+      </section>
+
+      <aside class="sidePane">
+        <div class="sideSection">
+          <h3>Approval Workflow</h3>
+          <div style="display:grid;gap:10px">
+            <div class="card" style="border-left:4px solid #2d9d68">
+              <b>Legal review</b>
+              <div class="mini">Completed by Marta K. · 10:42</div>
+            </div>
+            <div class="card" style="border-left:4px solid #e6a122">
+              <b>Finance approval</b>
+              <div class="mini">Waiting for David R.</div>
+            </div>
+            <div class="card" style="border-left:4px solid #7b4ce0">
+              <b>Executive sign-off</b>
+              <div class="mini">Queued after finance approval</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sideSection">
+          <h3>Review Checklist</h3>
+          <label style="display:block;margin:9px 0"><input type="checkbox" checked> Counterparty details verified</label>
+          <label style="display:block;margin:9px 0"><input type="checkbox" checked> Commercial terms reviewed</label>
+          <label style="display:block;margin:9px 0"><input type="checkbox"> Security addendum approved</label>
+          <label style="display:block;margin:9px 0"><input type="checkbox"> Final signature package prepared</label>
+          <div style="margin-top:12px;height:8px;background:#eceff2;border-radius:999px;overflow:hidden">
+            <div style="width:50%;height:100%;background:#7b4ce0"></div>
+          </div>
+          <div class="mini" style="margin-top:6px">2 of 4 checks complete</div>
+        </div>
+
+        <div class="timeline">
+          <h3>Participants</h3>
+          <div class="event"><div class="dot"></div><div><b>Marta K.</b><div class="mini">Legal · reviewer</div></div></div>
+          <div class="event"><div class="dot" style="background:#e6a122"></div><div><b>David R.</b><div class="mini">Finance · approver</div></div></div>
+          <div class="event"><div class="dot" style="background:#2d9d68"></div><div><b>Andrii D.</b><div class="mini">Owner · author</div></div></div>
+          <button class="btn" style="width:100%;margin-top:8px" onclick="alert('Demo participant picker opened')">+ Add participant</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
+
+<div class="tech">ASP.NET Core · Angular · SQL Server · Azure Blob Storage · Entra ID · REST API</div>
+
+<div class="modalWrap" id="modalWrap">
+  <div class="modal">
+    <h2>Create contract</h2>
+    <label>Contract name</label><input class="field" id="newName" value="Master Services Agreement">
+    <label>Counterparty</label><input class="field" id="newParty" value="New Vendor Ltd.">
+    <label>Template</label><select class="field" id="newTemplate"><option>MSA Template</option><option>NDA Template</option><option>Software License</option></select>
+    <div style="display:flex;gap:8px"><button class="btn primary" onclick="createDoc()">Create</button><button class="btn" onclick="modalWrap.classList.remove('open')">Cancel</button></div>
+  </div>
+</div>
+
+<script>
+let docs=[
+{id:1,name:'Master Services Agreement',party:'Acme Technologies',status:'Review',owner:'Marta K.',updated:'18 min ago',risk:'High'},
+{id:2,name:'Mutual NDA',party:'Northwind Labs',status:'Signed',owner:'Andrii D.',updated:'Yesterday',risk:'Low'},
+{id:3,name:'Software License Agreement',party:'Globex Systems',status:'Draft',owner:'Leo R.',updated:'2 days ago',risk:'Medium'},
+{id:4,name:'Data Processing Addendum',party:'Summit Health',status:'Review',owner:'Marta K.',updated:'3 days ago',risk:'Medium'},
+{id:5,name:'Vendor Agreement',party:'Initech',status:'Signed',owner:'Andrii D.',updated:'Last week',risk:'Low'}
+];
+let selected=1,filter='All';
+
+function statusClass(s){return s==='Review'?'review':s==='Signed'?'signed':s==='Draft'?'draft':'risk'}
+
+function renderList(){
+  const text=q.value.toLowerCase();
+  const rows=docs.filter(d=>(filter==='All'||d.status===filter)&&(!text||Object.values(d).join(' ').toLowerCase().includes(text)));
+  docList.innerHTML=rows.map(d=>`<div class="docItem ${d.id===selected?'on':''}" data-id="${d.id}">
+    <b>${d.name}</b><div class="meta">${d.party}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <span class="status ${statusClass(d.status)}">${d.status}</span><span class="meta">${d.updated}</span>
+    </div></div>`).join('');
+}
+
+function renderPaper(){
+  const d=docs.find(x=>x.id===selected)||docs[0];
+  docStatus.textContent=d.status==='Signed'?'Signed':d.status==='Draft'?'Draft':'In Review';
+  docStatus.className='status '+statusClass(d.status);
+  paper.innerHTML=`
+    <div class="meta">Version 7 · Last edited ${d.updated}</div>
+    <h1>${d.name}</h1>
+    <p>This ${d.name} (“Agreement”) is entered into between <b>Your Company, Inc.</b> and <b>${d.party}</b> (“Counterparty”).</p>
+    <h2>1. Scope of Services</h2>
+    <p class="clause note">Counterparty will provide the services described in applicable Statements of Work. Each Statement of Work will define deliverables, milestones, acceptance criteria, and fees.<span class="commentTag">2</span></p>
+    <h2>2. Fees and Payment</h2>
+    <p>Invoices are payable within thirty (30) days from receipt. Undisputed late amounts may accrue interest at the maximum rate permitted by law.</p>
+    <h2>3. Confidentiality</h2>
+    <p>Each party will protect Confidential Information using at least the same degree of care it uses to protect its own information of similar importance.</p>
+    <h2>4. Limitation of Liability</h2>
+    <p class="clause flag">Except for excluded claims, each party’s aggregate liability under this Agreement will not exceed two times the fees paid or payable during the twelve months preceding the event giving rise to liability.<span class="commentTag">!</span></p>
+    <h2>5. Term and Termination</h2>
+    <p class="clause note">This Agreement continues for twenty-four (24) months and renews automatically for successive twelve-month periods unless either party provides ninety (90) days’ prior written notice.<span class="commentTag">1</span></p>
+    <h2>6. Governing Law</h2>
+    <p>This Agreement is governed by the laws of the State of Delaware, without regard to conflict-of-law principles.</p>
+    <p style="margin-top:60px">___________________________<br>Your Company, Inc.</p>
+    <p>___________________________<br>${d.party}</p>`;
+}
+
+function render(){renderList();renderPaper()}
+document.addEventListener('click',e=>{
+  const item=e.target.closest('[data-id]');
+  if(item){selected=+item.dataset.id;render()}
+  if(e.target.matches('.tab')){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));e.target.classList.add('on');filter=e.target.dataset.filter;renderList()}
+});
+q.oninput=renderList;
+function markSigned(){let d=docs.find(x=>x.id===selected);d.status='Signed';d.updated='now';render()}
+function openModal(){modalWrap.classList.add('open')}
+function createDoc(){const id=Math.max(...docs.map(x=>x.id))+1;docs.unshift({id,name:newName.value||'Untitled Contract',party:newParty.value||'New Counterparty',status:'Draft',owner:'Andrii D.',updated:'now',risk:'Low'});selected=id;modalWrap.classList.remove('open');filter='All';document.querySelectorAll('.tab').forEach((x,i)=>x.classList.toggle('on',i===0));render()}
+render();
+</script>
+</body>
+</html>
